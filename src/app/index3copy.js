@@ -1,7 +1,6 @@
 import express from "express";
 import { config } from "../config/index.js";
-import { connectDB } from "../config/mongodb.config.js";
-import router from "../router/auth.routes.js";
+import cookieParser from "cookie-parser";
 import session from "express-session";
 
 const initApp = () => {
@@ -14,6 +13,9 @@ const initApp = () => {
   // Ruta para mostrar vista por default
   app.use(express.static(config.dirname + "./public"));
 
+  // Middleware para manejar cookies firmadas
+  app.use(cookieParser("miClaveSecreta"));
+
   // Middelware para manejar la session
   app.use(
     session({
@@ -23,6 +25,29 @@ const initApp = () => {
       cookie: { secure: false }, // Debe estar en true si usas HTTPS
     })
   );
+
+  // Ruta que almacena datos en una seción
+  app.get("/set-session", (req, res) => {
+    // Definir la session
+    req.session.usuario = { nombre: "Mauricio", rol: "admin" };
+    res.send("Session guardada");
+  });
+
+  // Ruta que obtiene datos de la sesión
+  app.get("/get-session", (req, res) => {
+    const sessionData = req.session.usuario;
+    if (sessionData) {
+      res.send(`Usuario: ${sessionData.nombre}, Rol: ${sessionData.rol}`);
+    } else {
+      res.send("No hay sesiones activas");
+    }
+  });
+
+  // Ruta para destruir la session
+  app.get("/logout", (req, res) => {
+    req.session.destroy();
+    res.send("Sesión cerrada");
+  });
 
   return app;
 };
