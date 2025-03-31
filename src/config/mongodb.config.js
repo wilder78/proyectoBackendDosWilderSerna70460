@@ -5,8 +5,6 @@ import mongoose from "mongoose";
 export const connectMongoDB = async () => {
     try {
         await mongoose.connect("mongodb://127.0.0.1:27017/ecommerce", {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
         });
         console.log("MongoDB connected successfully");
     } catch (error) {
@@ -15,4 +13,6 @@ export const connectMongoDB = async () => {
     }
 };
 
+// useNewUrlParser: true,
+// useUnifiedTopology: true,
 
