@@ -1,29 +1,18 @@
 import mongoose from "mongoose";
 
-export const connectDB = async () => {
+
+// Función de conexion a mongo.
+export const connectMongoDB = async () => {
     try {
-        await mongoose.connect("mongodb://localhost:27017/tu_base_de_datos", {
+        await mongoose.connect("mongodb://127.0.0.1:27017/ecommerce", {
             useNewUrlParser: true,
-            useUnifiedTopology: true
+            useUnifiedTopology: true,
         });
-        console.log("MongoDB conectado");
+        console.log("MongoDB connected successfully");
     } catch (error) {
-        console.error("Error conectando a MongoDB:", error);
+        console.error("Error connecting to MongoDB:", error.message);
         process.exit(1);
     }
 };
 
 
-// import mongoose from "mongoose";
-
-// // Función de conexión a mongo 
-// export const connectMongoDB = async () => {
-//   try {
-
-//     await mongoose.connect("mongodb://localhost:27017/70460");
-//     console.log("MongoDB connected");
-    
-//   } catch (error) {
-//     console.log("Error connecting to MongoDB: ", error);
-//   }
-// }

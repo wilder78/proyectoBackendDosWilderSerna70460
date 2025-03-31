@@ -3,11 +3,11 @@ import { userModel } from "../models/user.model.js";
 
 class UserDao {
 
-  async getAll(){
+  async getAll() {
     return await userModel.find();
   }
   
-  async getOne( query ){
+  async getOne( query ) {
     return await userModel.findOne(query);
   }
 
@@ -15,11 +15,11 @@ class UserDao {
     return await userModel.create(data);
   }
 
-  async update(id, data){
+  async update(id, data) {
     return await userModel.findByIdAndUpdate(id, data, { new: true });
   }
   
-  async remove(id){
+  async remove(id) {
     return await userModel.findByIdAndDelete(id);
   }
 

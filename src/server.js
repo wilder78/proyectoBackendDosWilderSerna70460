@@ -1,5 +1,5 @@
-import initApp from "./app/index.js";
-import { config } from "./config/index.js";
+import initApp from "./app/index.app.js";
+import { config } from "./config/index.config.js";
 
 const app = initApp();
 
