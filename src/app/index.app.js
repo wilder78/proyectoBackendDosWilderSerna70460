@@ -9,6 +9,9 @@ const initApp = () => {
 
   // Conexión con la base de datos
   connectMongoDB();
+  
+  // console.log(process.env.PORT);
+  
 
   //Para poder trabajar con JSON y que se parseen correctamente a formatos de objeto
   app.use(express.json());

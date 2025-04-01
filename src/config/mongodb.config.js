@@ -4,8 +4,7 @@ import mongoose from "mongoose";
 // Función de conexion a mongo.
 export const connectMongoDB = async () => {
     try {
-        await mongoose.connect("mongodb://127.0.0.1:27017/ecommerce", {
-        });
+        await mongoose.connect(process.env.MONGO_URL, {});
         console.log("MongoDB connected successfully");
     } catch (error) {
         console.error("Error connecting to MongoDB:", error.message);
@@ -13,6 +12,5 @@ export const connectMongoDB = async () => {
     }
 };
 
-// useNewUrlParser: true,
-// useUnifiedTopology: true,
 
+// MONGO_URL
