@@ -1,16 +1,25 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";  
+import envsConfig from "./envs.config.js";
 
+dotenv.config(); 
 
-// Función de conexion a mongo.
+// Función de conexión a MongoDB
 export const connectMongoDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URL, {});
-        console.log("MongoDB connected successfully");
+        console.log("Conectando a MongoDB con URL:", process.env.PORT);  // Verifica la URL antes de conectar
+
+        await mongoose.connect(envsConfig.MONGO_URL, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+
+        console.log("MongoDB conectado exitosamente");
     } catch (error) {
-        console.error("Error connecting to MongoDB:", error.message);
+        console.error("Error conectando a MongoDB:", error.message);
         process.exit(1);
     }
 };
 
 
-// MONGO_URL
+

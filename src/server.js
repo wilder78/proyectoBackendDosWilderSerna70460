@@ -1,4 +1,6 @@
+
 import initApp from "./app/index.app.js";
+import envsConfig from "./config/envs.config.js";
 import { config } from "./config/index.config.js";
 
 const app = initApp();
@@ -7,7 +9,7 @@ const app = initApp();
 const PORT = config.PORT || 8080;
 
 const server = app.listen(PORT, () => {
-  console.info(`Server listening on: http://localhost:${PORT}`);
+  console.info(`Server listening on: http://localhost:${envsConfig.PORT}`);
 });
 
 // Manejar errores en el servidor
@@ -16,10 +18,19 @@ server.on("error", (err) => {
 });
 
 // import initApp from "./app/index.app.js";
-// import { config } from "./config/index.config.js";
+// import { config } from "./config/index.config.js";  // Usamos `config` directamente
 
 // const app = initApp();
 
-// const server = app.listen(config.PORT, () => {
-//   console.info(`Server listen on: http://localhost:${process.env.PORT}`);
+// // Asegurar que PORT tenga un valor válido
+// const PORT = config.PORT || 3000;
+
+// const server = app.listen(PORT, () => {
+//   console.info(`Server running on: http://localhost:${PORT}`);
+// });
+
+// // Manejo mejorado de errores en el servidor
+// server.on("error", (err) => {
+//   console.error("Error en el servidor:", err.message);
+//   console.error(err.stack); // Mostrar más detalles del error
 // });
