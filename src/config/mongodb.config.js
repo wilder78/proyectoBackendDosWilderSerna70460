@@ -7,7 +7,7 @@ dotenv.config();
 // Función de conexión a MongoDB
 export const connectMongoDB = async () => {
     try {
-        console.log("Conectando a MongoDB con URL:", process.env.PORT);  // Verifica la URL antes de conectar
+        console.log("Conectando a MongoDB con URL:", envsConfig.MONGO_URL);  // Verifica la URL antes de conectar
 
         await mongoose.connect(envsConfig.MONGO_URL, {
             useNewUrlParser: true,

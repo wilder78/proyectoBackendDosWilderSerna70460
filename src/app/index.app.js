@@ -4,6 +4,7 @@ import { connectMongoDB } from "../config/mongodb.config.js";
 import router from "../router/router.js";
 import session from "express-session";
 
+
 const initApp = () => {
   const app = express();
 
@@ -23,10 +24,10 @@ const initApp = () => {
   // Middelware para manejar la session
   app.use(
     session({
-      secret: "secreto-super-seguro", // Clave para fimar la cookie
+      secret: "SESSION_SECRET", // Clave para fimar la cookie
       resave: true, // Evita guardar la sesión si no hay cambios.
       saveUninitialized: true, // Guarda sesiones vacías
-      cookie: { secure: false }, // Debe estar en true si usas HTTPS
+      cookie: { secure: false, maxAge: 5000 }, // Debe estar en true si usas HTTPS
     })
   );
 
