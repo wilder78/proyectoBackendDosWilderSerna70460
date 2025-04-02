@@ -27,7 +27,7 @@ const initApp = () => {
       secret: "SESSION_SECRET", // Clave para fimar la cookie
       resave: true, // Evita guardar la sesión si no hay cambios.
       saveUninitialized: true, // Guarda sesiones vacías
-      cookie: { secure: false, maxAge: 5000 }, // Debe estar en true si usas HTTPS
+      cookie: { secure: false, maxAge: 50000 }, // Debe estar en true si usas HTTPS
     })
   );
 
