@@ -1,7 +1,9 @@
 import { Router } from "express";
 import { userDao } from "../persistence/mongo/dao/user.dao.js";
-import { comparePassword, hasPassword } from "../utils/hasPassword.js";
+import { comparePassword, hasPassword } from "../utils/hasPassword.utils.js";
 import { authRole } from "../middlewares/authRole.middleware.js";
+import { createToken } from "../utils/jwt.utils.js";
+import { checkTokenHeader } from "../middlewares/checkTokenHeader.middleware.js";
 
 const router = Router();
 
@@ -11,22 +13,32 @@ router.post("/login", async (req, res) => {
     const user = await userDao.getOne({ email });
     // console.log(await comparePassword(user.password, password));
     
-    if (!user || !(await comparePassword(user.password, password))) 
+    if (!user || !comparePassword(user.password, password)) 
       return res.status(401).json({ message: "Email o password invalido" });
 
     // Eliminamos la contraseña del objeto usuario
-    delete user.password;
+    // delete user.password;
 
     // Guardamos la información del usuario en las session
-    req.session.user = user;
+    // req.session.user = user;
     // console.log(req.session.user);
 
-    res.status(200).json(user);
+    // Crear un token
+    const tokenInfo = {
+      _id: user._id,
+      email: user.email,
+      role: user.role
+    }
+
+    const token = createToken(tokenInfo);
+
+    res.status(200).json({user, token});
   } catch (error) {
     console.error("Error en /login:", error);
     res.status(500).json({ status: "error", message: "Internal Server Error" });
   }
 });
+
 
 // Metodo para registrar usuarios.
 router.post("/register", async (req, res) => {
@@ -48,7 +60,7 @@ router.post("/register", async (req, res) => {
     // Hashear el password
     const newUserData = {
       ...req.body,
-      password: await hasPassword(password),
+      password: hasPassword(password),
     };
 
     // Crear un nuevo usuario
@@ -62,16 +74,30 @@ router.post("/register", async (req, res) => {
 });
 
 
-router.get("/profile", authRole(["admin", "user"]), async (req, res) => {
+router.get("/profile", checkTokenHeader, authRole(["admin", "user"]), async (req, res) => {
   try {
-    if(!req.session.user) return res.status(401).json({ message: "No hay usuario logueado"});
-    res.status(200).json({ user: req.session.user})
-    
+    if (!req.session.user)
+      return res.status(401).json({ message: "No hay usuario logueado" });
+
+    res.status(200).json({ user: req.session.user });
+
   } catch (error) {
     console.log(error);
     res.status(500).json({ status: "error", message: "Internal Server Error" });
   }
-})
+});
+
+// router.get("/profile", checkTokenHeader, authRole(["admin", "user"]), async (req, res) => {
+//   try {
+//     if(!req.session.user) return res.status(401).json({ message: "No hay usuario logueado"});
+//     res.status(200).json({ user: req.session.user})
+    
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ status: "error", message: "Internal Server Error" });
+//   }
+// })
+
 
 router.get("/logout", async (req, res) => {
   try {
@@ -84,23 +110,3 @@ router.get("/logout", async (req, res) => {
 });
 
 export default router;
-
-// router.post("/login", async (req, res) => {
-//   try {
-//     const { email, password } = req.body;
-//     const user = await userDao.getOne({ email, password });
-//     if (!user)
-//       return res.status(401).json({ message: "Email o password invalido" });
-
-//     // Eliminamos la contraseña del objeto usuario
-//     delete user.password;
-
-//     // Guardamos la información del usuario en las session
-//     req.session.user = user;
-
-//     res.status(200).json(user);
-//   } catch (error) {
-//     console.error("Error en /login:", error);
-//     res.status(500).json({ status: "error", message: "Internal Server Error" });
-//   }
-// });
