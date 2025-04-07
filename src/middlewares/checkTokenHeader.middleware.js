@@ -17,7 +17,7 @@ export const checkTokenHeader = async (req, res, next) => {
 
     req.user = user;
 
-    // 🟢 Aquí guardamos el usuario en la sesión
+    // Aquí guardamos el usuario en la sesión
     req.session.user = {
       _id: user._id,
       email: user.email,
@@ -31,70 +31,3 @@ export const checkTokenHeader = async (req, res, next) => {
   }
 };
 
-
-// import { verifyToken } from "../utils/jwt.utils.js";
-// import { userDao } from "../persistence/mongo/dao/user.dao.js";
-
-
-// export const checkTokenHeader = async (req, res, next) => {
-//     try {
-//       const authHeader = req.headers.authorization;
-//       console.log(req.headers);
-//       if (!authHeader)
-//         return res.status(401).json({ message: "No se provee un token." });
-  
-//       const token = authHeader.split(" ")[1];
-  
-//       // Decodificar el token
-//       const decode = verifyToken(token);
-  
-//       const user = await userDao.getOne({ _id: decode._id });
-//       if (!user)
-//         return res.status(401).json({ message: "Usuario no encontrado" });
-  
-//       // Agregamos a la request el usuario
-//       req.user = user;
-  
-//       // 💡 Agregamos también el usuario a la sesión
-//       req.session.user = {
-//         _id: user._id,
-//         email: user.email,
-//         role: user.role
-//       };
-  
-//       next();
-//     } catch (error) {
-//       console.log(error);
-//       res.status(401).json({ message: error.message });
-//     }
-//   };
-  
-// import { verifyToken } from "../utils/jwt.utils.js";
-// import { userDao } from "../persistence/mongo/dao/user.dao.js";
-// // import mongoose from "mongoose";
-
-// export const checkTokenHeader = async (req, res, next) => {
-//   try {
-//     const authHeader = req.headers.authorization;
-//     console.log(req.headers);
-//     if (!authHeader)
-//       return res.status(401).json({ message: "No se provee un token." });
-
-//     const token = authHeader.split(" ")[1];
-//     // Decodificar el token
-//     const decode = verifyToken(token);
-//     // console.log(decode);
-//     // const user = await userDao.getOne({ _id: new mongoose.Types.ObjectId(decode._id) });
-//     const user = await userDao.getOne({ _id: decode._id });
-//     if (!user)
-//       return res.status(401).json({ message: "Usuario no encontrado" });
-
-//     // Agregamos a la request el usuario
-//     req.user = user;
-
-//     next();
-//   } catch (error) {
-//     console.log(error);
-//     res.status(401).json({ message: error.message });
-//   }
-// };

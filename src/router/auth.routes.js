@@ -7,6 +7,7 @@ import { checkTokenHeader } from "../middlewares/checkTokenHeader.middleware.js"
 
 const router = Router();
 
+// Metodo para validar usuario o logearse.
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -15,13 +16,6 @@ router.post("/login", async (req, res) => {
     
     if (!user || !comparePassword(user.password, password)) 
       return res.status(401).json({ message: "Email o password invalido" });
-
-    // Eliminamos la contraseña del objeto usuario
-    // delete user.password;
-
-    // Guardamos la información del usuario en las session
-    // req.session.user = user;
-    // console.log(req.session.user);
 
     // Crear un token
     const tokenInfo = {
@@ -74,6 +68,7 @@ router.post("/register", async (req, res) => {
 });
 
 
+// Verificar que el usuario está autenticado con JWT
 router.get("/profile", checkTokenHeader, authRole(["admin", "user"]), async (req, res) => {
   try {
     if (!req.session.user)
@@ -87,18 +82,8 @@ router.get("/profile", checkTokenHeader, authRole(["admin", "user"]), async (req
   }
 });
 
-// router.get("/profile", checkTokenHeader, authRole(["admin", "user"]), async (req, res) => {
-//   try {
-//     if(!req.session.user) return res.status(401).json({ message: "No hay usuario logueado"});
-//     res.status(200).json({ user: req.session.user})
-    
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ status: "error", message: "Internal Server Error" });
-//   }
-// })
 
-
+// Cerrar login.
 router.get("/logout", async (req, res) => {
   try {
     req.session.destroy();
