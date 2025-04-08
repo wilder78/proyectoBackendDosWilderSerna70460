@@ -26,6 +26,8 @@ router.post("/login", async (req, res) => {
 
     const token = createToken(tokenInfo);
 
+    
+
     res.status(200).json({user, token});
   } catch (error) {
     console.error("Error en /login:", error);
@@ -69,12 +71,10 @@ router.post("/register", async (req, res) => {
 
 
 // Verificar que el usuario está autenticado con JWT
-router.get("/profile", checkTokenHeader, authRole(["admin", "user"]), async (req, res) => {
+router.get("/profile", checkTokenHeader, authRole(["admin", "user"]),  async (req, res) => {
   try {
-    if (!req.session.user)
-      return res.status(401).json({ message: "No hay usuario logueado" });
 
-    res.status(200).json({ user: req.session.user });
+    res.status(200).json({ user: req.user });
 
   } catch (error) {
     console.log(error);

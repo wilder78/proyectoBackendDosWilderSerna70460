@@ -10,11 +10,13 @@ export const checkTokenHeader = async (req, res, next) => {
     const token = authHeader.split(" ")[1];
 
     const decode = verifyToken(token);
+    // console.log(decode);
 
     const user = await userDao.getOne({ _id: decode._id });
     if (!user)
       return res.status(401).json({ message: "Usuario no encontrado" });
 
+    // Agregamos a la request el usuario.
     req.user = user;
 
     // Aquí guardamos el usuario en la sesión
