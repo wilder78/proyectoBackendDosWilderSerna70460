@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
   } 
 })
 
-// Empoy to register user. --//-- Empoy para registrar usuario.
+// Empoy to register user. --//-- Emplear para registrar usuario.
 router.post("/", async (req, res) => {
   try {
     const user = await userDao.create(req.body);
@@ -38,7 +38,7 @@ router.get("/:id", userExist, async (req, res) => {
   }
 });
 
-// Empoy to search by id. --//-- Empoy para buscar por id.
+// Empoy to update by id. --//-- Emplear para actualizar por id.
 router.put("/:id", userExist, async (req, res) => {
   try {
 
