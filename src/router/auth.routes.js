@@ -4,6 +4,7 @@ import { comparePassword, hasPassword } from "../utils/hasPassword.utils.js";
 import { authRole } from "../middlewares/authRole.middleware.js";
 import { createToken } from "../utils/jwt.utils.js";
 import { checkTokenHeader } from "../middlewares/checkTokenHeader.middleware.js";
+import { checkTokenCookie } from "../middlewares/checkTokenCookie.middleware.js";
 
 const router = Router();
 
@@ -26,7 +27,8 @@ router.post("/login", async (req, res) => {
 
     const token = createToken(tokenInfo);
 
-    
+    // Guardemos el token en una cookie
+    res.cookie("token", token, { httpOnly: true});
 
     res.status(200).json({user, token});
   } catch (error) {
@@ -71,7 +73,7 @@ router.post("/register", async (req, res) => {
 
 
 // Verificar que el usuario está autenticado con JWT
-router.get("/profile", checkTokenHeader, authRole(["admin", "user"]),  async (req, res) => {
+router.get("/profile", checkTokenCookie, authRole(["admin", "user"]),  async (req, res) => {
   try {
 
     res.status(200).json({ user: req.user });

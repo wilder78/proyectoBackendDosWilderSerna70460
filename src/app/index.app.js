@@ -3,7 +3,7 @@ import { config } from "../config/index.config.js";
 import { connectMongoDB } from "../config/mongodb.config.js";
 import router from "../router/router.js";
 import session from "express-session";
-
+import cookieParser from "cookie-parser";
 
 const initApp = () => {
   const app = express();
@@ -30,6 +30,9 @@ const initApp = () => {
       cookie: { secure: false, maxAge: 50000 }, // Debe estar en true si usas HTTPS
     })
   );
+
+  // Cookies de solicitud.
+  app.use(cookieParser());
 
   // Rutas de conexión
   app.use("/api", router);
