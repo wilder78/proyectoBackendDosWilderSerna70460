@@ -4,6 +4,7 @@ import { connectMongoDB } from "../config/mongodb.config.js";
 import router from "../router/router.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
+import passport from "../config/passport/passport.config.js";
 
 const initApp = () => {
   const app = express();
@@ -33,6 +34,9 @@ const initApp = () => {
 
   // Cookies de solicitud.
   app.use(cookieParser());
+
+  // Inicializar las estrategias de passport
+  app.use(passport.initialize());
 
   // Rutas de conexión
   app.use("/api", router);

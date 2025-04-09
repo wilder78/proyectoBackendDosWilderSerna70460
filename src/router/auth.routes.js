@@ -5,6 +5,7 @@ import { authRole } from "../middlewares/authRole.middleware.js";
 import { createToken } from "../utils/jwt.utils.js";
 import { checkTokenHeader } from "../middlewares/checkTokenHeader.middleware.js";
 import { checkTokenCookie } from "../middlewares/checkTokenCookie.middleware.js";
+import passport from "passport";
 
 const router = Router();
 
@@ -39,37 +40,48 @@ router.post("/login", async (req, res) => {
 
 
 // Metodo para registrar usuarios.
-router.post("/register", async (req, res) => {
+router.post("/register", passport.authenticate("register"), async(req, res) => {
   try {
-    // console.log("Cuerpo recibido en /register:", req.body); //
-    const { email, password } = req.body;
 
-    // Verificar que el password fue enviado
-    if (!password) {
-      return res.status(400).json({ message: "El password es obligatorio" });
-    }
+    res.status(201).json({ message: req.user});
 
-    // Verificar si el usuario ya existe
-    const user = await userDao.getOne({ email });
-    if (user) {
-      return res.status(400).json({ message: "Ya hay un usuario registrado con ese email" });
-    }
 
-    // Hashear el password
-    const newUserData = {
-      ...req.body,
-      password: hasPassword(password),
-    };
-
-    // Crear un nuevo usuario
-    const newUser = await userDao.create(newUserData);
-
-    res.status(201).json(newUser);
   } catch (error) {
-    console.error("Error en /register:", error);
+    console.log(error);
     res.status(500).json({ status: "error", message: "Internal Server Error" });
   }
 });
+// router.post("/register", async (req, res) => {
+//   try {
+//     // console.log("Cuerpo recibido en /register:", req.body); //
+//     const { email, password } = req.body;
+
+//     // Verificar que el password fue enviado
+//     if (!password) {
+//       return res.status(400).json({ message: "El password es obligatorio" });
+//     }
+
+//     // Verificar si el usuario ya existe
+//     const user = await userDao.getOne({ email });
+//     if (user) {
+//       return res.status(400).json({ message: "Ya hay un usuario registrado con ese email" });
+//     }
+
+//     // Hashear el password
+//     const newUserData = {
+//       ...req.body,
+//       password: hasPassword(password),
+//     };
+
+//     // Crear un nuevo usuario
+//     const newUser = await userDao.create(newUserData);
+
+//     res.status(201).json(newUser);
+//   } catch (error) {
+//     console.error("Error en /register:", error);
+//     res.status(500).json({ status: "error", message: "Internal Server Error" });
+//   }
+// });
 
 
 // Verificar que el usuario está autenticado con JWT
