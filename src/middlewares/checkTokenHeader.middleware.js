@@ -23,7 +23,7 @@ export const checkTokenHeader = async (req, res, next) => {
     req.session.user = {
       _id: user._id,
       email: user.email,
-      role: user.role
+      role: user.role,
     };
 
     next();
@@ -32,4 +32,3 @@ export const checkTokenHeader = async (req, res, next) => {
     res.status(401).json({ message: error.message });
   }
 };
-

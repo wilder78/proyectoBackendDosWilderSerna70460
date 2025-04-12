@@ -3,11 +3,10 @@ import envsConfig from "../config/envs.config.js";
 
 // Función que crea el token
 export const createToken = (data) => {
-    return jwt.sign(data, envsConfig.JWT_SECRET, { expiresIn: "5m" });
+  return jwt.sign(data, envsConfig.JWT_SECRET, { expiresIn: "5m" });
 };
 
 // Función que verifica (decodifica) el token
-export const verifyToken = (token) => {    
-    return jwt.verify(token, envsConfig.JWT_SECRET);
+export const verifyToken = (token) => {
+  return jwt.verify(token, envsConfig.JWT_SECRET);
 };
-
