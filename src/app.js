@@ -16,7 +16,7 @@ connectMongoDB();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(express.static("public"));
+app.use(express.static("public/index.html"));
 app.use(
   session({
     secret: envsConfig.SESSION_SECRET,
