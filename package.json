@@ -5,10 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "node --watch --env-file=.env.development ./src/app",
-    "debug9": "node --watch --env-file=.env.development ./src/app",
-    "test": "node --watch --env-file=.env.test ./src/app",
-    "prod": "node --watch --env-file=.env.production ./src/app"
+    "dev": "node --watch --env-file=.env.development ./src/apps/app",
+    "debug9": "node --watch --env-file=.env.development ./src/apps/app",
+    "test": "node --watch --env-file=.env.test ./src/apps/app",
+    "prod": "node --watch --env-file=.env.production ./src/apps/app"
   },
   "keywords": [],
   "author": "",

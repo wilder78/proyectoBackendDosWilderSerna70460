@@ -1,35 +1,61 @@
 import { cartModel } from "../models/cart.model.js";
 
 class CartDao {
-  // Método para obtener todos los carritos
+  // Obtener todos los carritos
   async getAll() {
-    const carts = await cartModel.find();
-    return carts;
+    try {
+      const carts = await cartModel.find();
+      return carts;
+    } catch (error) {
+      console.error("Error al obtener carritos:", error);
+      throw new Error("Error al obtener carritos");
+    }
   }
 
-  // Método para obtener un carrito por su ID
+  // Obtener un carrito por su ID, incluyendo los productos
   async getById(id) {
-    const cart = await cartModel.findById(id).populate("products.product");
-    return cart;
+    try {
+      const cart = await cartModel.findById(id).populate("products.product");
+      return cart;
+    } catch (error) {
+      console.error(`Error al obtener carrito con ID ${id}:`, error);
+      throw new Error("Carrito no encontrado");
+    }
   }
 
-  // Método para crear un nuevo carrito
+  // Crear un nuevo carrito
   async create() {
-    const cart = await cartModel.create({});
-    return cart;
+    try {
+      const cart = await cartModel.create({});
+      return cart;
+    } catch (error) {
+      console.error("Error al crear carrito:", error);
+      throw new Error("Error al crear carrito");
+    }
   }
 
-  // Método para actualizar un carrito por su ID
+  // Actualizar un carrito por su ID
   async update(id, data) {
-    const cartUpdate = await cartModel.findByIdAndUpdate(id, data, { new: true });
-    return cartUpdate;
+    try {
+      const cartUpdate = await cartModel.findByIdAndUpdate(id, data, { new: true });
+      return cartUpdate;
+    } catch (error) {
+      console.error(`Error al actualizar carrito con ID ${id}:`, error);
+      throw new Error("Error al actualizar carrito");
+    }
   }
 
-  // Método para eliminar un carrito por su ID
+  // Eliminar un carrito por su ID
   async deleteOne(id) {
-    const cart = await cartModel.deleteOne({ _id: id });
-    return cart;
+    try {
+      const cart = await cartModel.deleteOne({ _id: id });
+      return cart;
+    } catch (error) {
+      console.error(`Error al eliminar carrito con ID ${id}:`, error);
+      throw new Error("Error al eliminar carrito");
+    }
   }
 }
 
 export const cartDao = new CartDao();
+

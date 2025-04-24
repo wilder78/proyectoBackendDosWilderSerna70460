@@ -1,8 +1,8 @@
-#Poryecto e-commerce para curso de Backend II de Coderhouse
+#Poryecto final de Backend II Wilder M Serna Q.
 
 ## Descripción
 
-Este proyecto es un e-commerce de venta de productos de tecnología. Se desarrolló en el marco del curso de Backend II de Coderhouse.
+Este proyecto lo decodifico para alcanzar mas conocimiento y mejorar mis conocimientos
 
 ## Tecnologías utilizadas
 
@@ -11,8 +11,4 @@ Este proyecto es un e-commerce de venta de productos de tecnología. Se desarrol
 - MongoDB
 - Mongoose
 
-## Instalación
 
-1. Clonar el repositorio
-2. Instalar las dependencias con `npm install`
-3. Iniciar el servidor con `npm run dev`

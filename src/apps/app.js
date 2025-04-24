@@ -1,13 +1,16 @@
 import express from "express";
-import { connectMongoDB } from "./config/mongoDB.config.js";
-import routes from "./routes/router.js";
-import envsConfig from "./config/envs.config.js";
+import { connectMongoDB } from "../config/mongoDB.config.js";
+import routes from "../routes/router.js";
+import envsConfig from "../config/envs.config.js";
 import session from "express-session";
 import cookieParser from "cookie-parser";
-import passport from "./config/passport/passport.config.js";
+import passport from "../config/passport/passport.config.js";
 import cors from "cors";
-import { sendEmail } from "./email/sendEmail.js";
-import { welcomeUserTemplate } from "./email/templates/welcome.template.js";
+import { sendEmail } from "../email/sendEmail.js";
+import { welcomeUserTemplate } from "../email/templates/welcome.template.js";
+
+
+
 
 const app = express();
 
@@ -36,7 +39,7 @@ app.use(passport.initialize());
 app.use("/api", routes);
 app.use("/email", async (req, res) => {
   const template = welcomeUserTemplate("Javier");
-  await sendEmail(template, "Prueba 3 email", "profeluismeradev@gmail.com");
+  await sendEmail(template, "Prueba 3 email", "entretenimientosernaq@gmail.com");
   res.status(200).json({ msg: "Email enviado" });
 });
 

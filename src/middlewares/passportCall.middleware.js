@@ -1,18 +1,20 @@
+// Middleware para autenticar peticiones usando Passport.js
 import passport from "passport";
 
 export const passportCall = (strategy) => {
   return (req, res, next) => {
     
+    // Usamos Passport para autenticar la solicitud según la estrategia proporcionada
     passport.authenticate(strategy, (err, user, info) => {
-      // Validamos si existe un error
-      if(err) return next(err);
-      // Validamos si existe el usuario
-      if(!user) return res.status(401).json({ status: "error", msg: info.message});
+      // Si ocurre un error, lo pasamos al siguiente middleware o controlador
+      if (err) return next(err);
+      
+      // Si no existe el usuario, respondemos con un error 401
+      if (!user) return res.status(401).json({ status: "error", msg: info.message });
 
-      // Si todo sale bien 
+      // Si la autenticación es exitosa, agregamos el usuario a la solicitud
       req.user = user;
       next();
-    })(req, res, next)
-
+    })(req, res, next); // Ejecutamos el método de autenticación
   }
-}
+};
