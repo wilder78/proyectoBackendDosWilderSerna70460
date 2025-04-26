@@ -1,16 +1,18 @@
 import { cartDao } from "../persistence/mongo/dao/cart.dao.js";
 import { productDao } from "../persistence/mongo/dao/product.dao.js";
-import { Types } from "mongoose";
 
 class CartServices {
+  // Crear carrito nuevo.
   async createCart() {
     return await cartDao.create();
   }
 
+  // Buscar carrito por id.
   async getCartById(cid) {
     return await cartDao.getById(cid);
   }
 
+  // Agregar productos al carrito.
   async addProductToCart(cid, pid) {
     const cart = await cartDao.getById(cid);
 
@@ -26,6 +28,7 @@ class CartServices {
     return cartUpdate;
   }
 
+  // Eliminar un producto del carrito.
   async deleteProductToCart(cid, pid) {
     const cart = await cartDao.getById(cid);
     cart.products = cart.products.filter((element) => element.product != pid);
@@ -33,6 +36,7 @@ class CartServices {
     return cartUpdate;
   }
 
+  // Cambiar cantidad de productos al carrito.
   async updateQuantityProductInCart(cid, pid) {
     const cart = await cartDao.getById(cid);
     const product = cart.products.find((element) => element.product == pid);
@@ -41,11 +45,13 @@ class CartServices {
     return cartUpdate;
   }
 
+  // Limpiar carrito.
   async clearProductsToCart(cid) {
     const cartUpdate = await cartDao.update(cid, { products: [] });
     return cartUpdate;
   }
 
+  // Simular compras en el carrito.
   async purchaseCart(cid) {
     const cart = await cartDao.getById(cid);
 
@@ -56,9 +62,11 @@ class CartServices {
     for (const productCart of cart.products) {
       // Buscamos de manera individual cada producto para obtener su stock
       const prod = await productDao.getById(productCart.product);
+      
       // Validamos si el stock del producto buscado es mayor o igual a la cantidad del carrito
       if (prod.stock >= productCart.quantity) {
-        total += prod.price * productCart.quantity; // Sumamos al total de la compra
+        total += prod.price * productCart.quantity; // Sumamos al total de la compra.
+
         // Actualizamos el stock restando la cantidad de productos del carrito
         await productDao.update(prod._id, { stock: prod.stock - productCart.quantity });
       } else {

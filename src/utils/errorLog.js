@@ -1,4 +1,4 @@
-
+// Detalles de error
 export const errorLog = (err, req) => {
   const error = {
     path: `[${req.method}] ${req.originalUrl}`,
