@@ -18,3 +18,15 @@ export const passportCall = (strategy) => {
     })(req, res, next); // Ejecutamos el método de autenticación
   }
 };
+
+
+
+
+
+  
+    
+    
+
+      
+      
+

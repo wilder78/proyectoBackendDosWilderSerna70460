@@ -6,14 +6,16 @@ export const checkTokenHeader = async (req, res, next) => {
   try {
     // Obtenemos el token desde el encabezado de autorización
     const authHeader = req.headers.authorization;
-    if (!authHeader) return res.status(401).json({ message: "No se provee un token" });
+    if (!authHeader)
+      return res.status(401).json({ message: "No se provee un token" });
 
     const token = authHeader.split(" ")[1];
 
     // Decodificamos el token
     const decoded = verifyToken(token);
     const user = await userDao.getOne({ _id: decoded._id });
-    if (!user) return res.status(401).json({ message: "Usuario no encontrado" });
+    if (!user)
+      return res.status(401).json({ message: "Usuario no encontrado" });
 
     // Si todo es válido, agregamos el usuario al request
     req.user = user;

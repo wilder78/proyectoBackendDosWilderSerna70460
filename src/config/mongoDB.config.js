@@ -10,3 +10,5 @@ export const connectMongoDB = async () => {
     console.log(`Error: ${error}`);
   }
 }
+
+

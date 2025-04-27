@@ -4,8 +4,9 @@ import { userDao } from "../../persistence/mongo/dao/user.dao.js";
 import { comparePassword, hashPassword } from "../../utils/hasPassword.js";
 import { cartDao } from "../../persistence/mongo/dao/cart.dao.js";
 
-// Estrategia de registro
 
+
+// Estrategia de registro
 const registerStrategy = new Strategy(
   { passReqToCallback: true, usernameField: "email" },
   async (req, username, password, done) => {
@@ -29,6 +30,7 @@ const registerStrategy = new Strategy(
     }
   }
 );
+
 
 // Registramos la estrategia de register
 passport.use("register", registerStrategy);

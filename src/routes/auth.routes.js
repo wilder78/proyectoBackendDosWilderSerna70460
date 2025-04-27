@@ -1,5 +1,4 @@
 import { Router } from "express";
-import passport from "passport";
 import { validateSchema } from "../middlewares/validateSchema.middleware.js";
 import { passportCall } from "../middlewares/passportCall.middleware.js";
 import { authRole } from "../middlewares/authRole.middleware.js";

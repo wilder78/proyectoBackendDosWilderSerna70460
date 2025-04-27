@@ -10,18 +10,20 @@ const cookieExtractor = (req) => {
   if (req && req.cookies) {
     token = req.cookies.token;
   }
-  
+
   return token;
 };
 
 const jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor, ExtractJwt.fromAuthHeaderAsBearerToken()]), // Configuramos de donde extraemos el token (cookies o headers)
+  jwtFromRequest: ExtractJwt.fromExtractors([
+    cookieExtractor,
+    ExtractJwt.fromAuthHeaderAsBearerToken(),
+  ]), // Configuramos de donde extraemos el token (cookies o headers)
   secretOrKey: envsConfig.JWT_SECRET, // Valida si la firma del token es válida
 };
 
 const jwtStrategy = new Strategy(jwtOptions, async (payload, done) => {
   try {
-    
     if (payload) {
       const user = await userDao.getOne({ email: payload.email });
       return done(null, user);
