@@ -7,8 +7,8 @@ class ProductDao {
       const products = await productModel.paginate(query, options);
       return products;
     } catch (error) {
-      console.error("Error al obtener productos:", error);
-      throw new Error("Error al obtener productos");
+      console.error("Error al obtener productos:", error.message);
+      throw new Error(`Error al obtener productos: ${error.message}`);
     }
   }
 
@@ -16,10 +16,13 @@ class ProductDao {
   async getById(id) {
     try {
       const product = await productModel.findById(id);
+      if (!product) {
+        throw new Error(`Producto con ID ${id} no encontrado`);
+      }
       return product;
     } catch (error) {
-      console.error(`Error al obtener producto con ID ${id}:`, error);
-      throw new Error("Producto no encontrado");
+      console.error(`Error al obtener producto con ID ${id}:`, error.message);
+      throw new Error(`Producto no encontrado: ${error.message}`);
     }
   }
 
@@ -29,8 +32,8 @@ class ProductDao {
       const product = await productModel.create(data);
       return product;
     } catch (error) {
-      console.error("Error al crear producto:", error);
-      throw new Error("Error al crear producto");
+      console.error("Error al crear producto:", error.message);
+      throw new Error(`Error al crear producto: ${error.message}`);
     }
   }
 
@@ -38,10 +41,13 @@ class ProductDao {
   async update(id, data) {
     try {
       const productUpdate = await productModel.findByIdAndUpdate(id, data, { new: true });
+      if (!productUpdate) {
+        throw new Error(`Producto con ID ${id} no encontrado para actualizar`);
+      }
       return productUpdate;
     } catch (error) {
-      console.error(`Error al actualizar producto con ID ${id}:`, error);
-      throw new Error("Error al actualizar producto");
+      console.error(`Error al actualizar producto con ID ${id}:`, error.message);
+      throw new Error(`Error al actualizar producto: ${error.message}`);
     }
   }
 
@@ -49,12 +55,16 @@ class ProductDao {
   async deleteOne(id) {
     try {
       const product = await productModel.findByIdAndUpdate(id, { status: false }, { new: true });
+      if (!product) {
+        throw new Error(`Producto con ID ${id} no encontrado para desactivar`);
+      }
       return product;
     } catch (error) {
-      console.error(`Error al desactivar producto con ID ${id}:`, error);
-      throw new Error("Error al desactivar producto");
+      console.error(`Error al desactivar producto con ID ${id}:`, error.message);
+      throw new Error(`Error al desactivar producto: ${error.message}`);
     }
   }
 }
 
 export const productDao = new ProductDao();
+

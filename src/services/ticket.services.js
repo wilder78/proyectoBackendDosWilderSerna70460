@@ -1,7 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { ticketDao } from "../persistence/mongo/dao/ticket.dao.js";
-import { ticketTemplate } from "../email/templates/ticket.template.js";
-import { sendEmail } from "../email/sendEmail.js";
+
 
 // Crear y comfirmar compra de ticket.
 class TicketService {

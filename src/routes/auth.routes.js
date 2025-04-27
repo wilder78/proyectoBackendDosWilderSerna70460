@@ -6,8 +6,7 @@ import { createToken } from "../utils/jwt.js";
 import { loginSchema } from "../schemas/login.schema.js";
 import { registerSchema } from "../schemas/register.schema.js";
 import { UserResponseDto } from "../dto/userResponse.dto.js";
-import { welcomeUserTemplate } from "../email/templates/welcome.template.js";
-import { sendEmail } from "../email/sendEmail.js";
+
 
 const router = Router();
 
